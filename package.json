@@ -1,0 +1,21 @@
+{
+  "name": "chaosbot",
+  "version": "1.0.0",
+  "description": "Chaos interactive discord bot because I'm secretly evil af",
+  "main": "main.js",
+  "scripts": {
+    "start": "esno main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "Tyler V",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.5.1",
+    "dotenv": "^10.0.0",
+    "esno": "^0.13.0",
+    "lodash-es": "^4.17.21",
+    "reacord": "^0.1.1",
+    "react": "^17.0.2"
+  }
+}
