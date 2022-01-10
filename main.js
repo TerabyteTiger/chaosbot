@@ -64,7 +64,7 @@ client.on("interactionCreate", async (interaction) => {
         .setStyle("PRIMARY")
     );
     blindfaithTarget = interaction.member;
-    const msg = `${interaction.nickname} has requested that nobody touch this button`;
+    const msg = `${interaction.member.nickname} has requested that nobody touch this button`;
 
     await interaction.reply({ content: msg, components: [row] });
   }
