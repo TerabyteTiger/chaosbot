@@ -4,7 +4,7 @@
   "description": "Chaos interactive discord bot because I'm secretly evil af",
   "main": "main.js",
   "scripts": {
-    "start": "esno main.js",
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
