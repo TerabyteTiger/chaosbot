@@ -14,11 +14,11 @@ const client = new Client({
 let chaosTarget = null;
 let blindfaithTarget = null;
 
+// client.application?.commands.create({
+//   name: "chaos",
+//   description: "Create chaos for the choosen one",
+// });
 client.on("ready", () => {
-  // client.application?.commands.create({
-  //   name: "chaos",
-  //   description: "Create chaos for the choosen one",
-  // });
   client.application?.commands.create({
     name: "chaotic",
     description: "Create chaos for everyone",
