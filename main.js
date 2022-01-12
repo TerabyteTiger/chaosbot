@@ -82,7 +82,8 @@ client.on("interactionCreate", async (interaction) => {
 
   // Chaotic Button pushed
   if (interaction.isButton() && interaction.customId === "btn1") {
-    if (interaction.member.moderatable) {
+    console.log(interaction.member.manageable);
+    if (interaction.member.manageable) {
       interaction.member.timeout(30000, "I told you not to push the button 😜");
       interaction.reply({
         content: "THE BUTTON HAS BEEN PUSHED - ENJOY",
@@ -100,7 +101,8 @@ client.on("interactionCreate", async (interaction) => {
 
   // Blind Faith Button Pushed
   if (interaction.isButton() && interaction.customId === "btn3") {
-    if (blindfaithTarget.moderatable) {
+    console.log(blindfaithTarget.manageable);
+    if (blindfaithTarget.manageable) {
       blindfaithTarget.timeout(
         60000,
         `${interaction.member.nickname} does not have your back 🔪`
