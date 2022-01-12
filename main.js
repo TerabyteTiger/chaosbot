@@ -82,23 +82,37 @@ client.on("interactionCreate", async (interaction) => {
 
   // Chaotic Button pushed
   if (interaction.isButton() && interaction.customId === "btn1") {
-    interaction.member.timeout(30000, "I told you not to push the button 😜");
-    interaction.reply({
-      content: "THE BUTTON HAS BEEN PUSHED - ENJOY",
-      ephemeral: true,
-    });
+    if (interaction.member.moderatable) {
+      interaction.member.timeout(30000, "I told you not to push the button 😜");
+      interaction.reply({
+        content: "THE BUTTON HAS BEEN PUSHED - ENJOY",
+        ephemeral: true,
+      });
+    } else {
+      interaction.reply({
+        content:
+          "THE BUTTON HAS BEEN PUSHED - but you're an admin, so continue about your day 😊",
+        ephemeral: true,
+      });
+    }
     return;
   }
 
   // Blind Faith Button Pushed
   if (interaction.isButton() && interaction.customId === "btn3") {
-    blindfaithTarget.timeout(
-      60000,
-      `${interaction.member.nickname} does not have your back 🔪`
-    );
-    interaction.reply({
-      content: `${interaction.member.nickname} cannot be trusted`,
-    });
+    if (blindfaithTarget.moderatable) {
+      blindfaithTarget.timeout(
+        60000,
+        `${interaction.member.nickname} does not have your back 🔪`
+      );
+      interaction.reply({
+        content: `${interaction.member.nickname} cannot be trusted`,
+      });
+    } else {
+      interaction.reply({
+        content: "Sorry, Admins aren't eligible for this chaos",
+      });
+    }
     return;
   }
 
