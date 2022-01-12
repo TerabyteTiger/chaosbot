@@ -21,11 +21,11 @@ const client = new Client({
 let chaosTarget = null;
 let blindfaithTarget = null;
 
-// lazy build trigger
 // client.application?.commands.create({
 //   name: "chaos",
 //   description: "Create chaos for the choosen one",
 // });
+
 client.on("ready", () => {
   client.application?.commands.create({
     name: "chaotic",
@@ -35,9 +35,23 @@ client.on("ready", () => {
     name: "blindfaith",
     description: "How much do you trust everyone in this channel?",
   });
+  client.application?.commands.create({
+    name: "perms",
+    description: "Check Bot Permissions",
+  });
 });
 
 client.on("interactionCreate", async (interaction) => {
+  if (interaction.isCommand() && interaction.commandName === "perms") {
+    const row = new MessageActionRow().addComponents(
+      new MessageButton()
+        .setCustomId("permsBtn")
+        .setLabel("Check Permissions")
+        .setStyle("PRIMARY")
+    );
+    await interaction.reply({ content: ":]", components: [row] });
+  }
+
   if (interaction.isCommand() && interaction.commandName === "chaotic") {
     const row = new MessageActionRow().addComponents(
       new MessageButton()
@@ -85,10 +99,17 @@ client.on("interactionCreate", async (interaction) => {
     });
     return;
   }
+  if (interaction.isButton() && interaction.customId === "permsBtn") {
+    interaction.reply({
+      content: "THE BUTTON HAS BEEN PUSHED",
+      ephemeral: true,
+    });
+    return;
+  }
 
   // Chaotic Button pushed
   if (interaction.isButton() && interaction.customId === "btn1") {
-    if (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+    if (interaction.member.moderatable) {
       interaction.member.timeout(30000, "I told you not to push the button 😜");
       interaction.reply({
         content: "THE BUTTON HAS BEEN PUSHED - ENJOY",
@@ -97,7 +118,7 @@ client.on("interactionCreate", async (interaction) => {
     } else {
       interaction.reply({
         content:
-          "THE BUTTON HAS BEEN PUSHED - but you're an admin, so continue about your day 😊",
+          "THE BUTTON HAS BEEN PUSHED - but you're above the law, so continue about your day 😊",
         ephemeral: true,
       });
     }
@@ -106,7 +127,7 @@ client.on("interactionCreate", async (interaction) => {
 
   // Blind Faith Button Pushed
   if (interaction.isButton() && interaction.customId === "btn3") {
-    if (!blindfaithTarget.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+    if (blindfaithTarget.moderatable) {
       blindfaithTarget.timeout(
         60000,
         `${interaction.member.nickname} does not have your back 🔪`
@@ -116,7 +137,8 @@ client.on("interactionCreate", async (interaction) => {
       });
     } else {
       interaction.reply({
-        content: "Sorry, Admins aren't eligible for this chaos",
+        content:
+          "Sorry, you're above the law and aren't eligible for this chaos",
       });
     }
     return;
