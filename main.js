@@ -14,6 +14,7 @@ const client = new Client({
 let chaosTarget = null;
 let blindfaithTarget = null;
 
+// lazy build trigger
 // client.application?.commands.create({
 //   name: "chaos",
 //   description: "Create chaos for the choosen one",
