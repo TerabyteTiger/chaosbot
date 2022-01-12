@@ -1,5 +1,6 @@
 import { Client, Intents, MessageActionRow, MessageButton } from "discord.js";
 import dotenv from "dotenv";
+import http from "http";
 
 dotenv.config();
 
@@ -111,7 +112,7 @@ client.once("ready", () => {
 });
 
 // Need to listen for something to prevent R10 error on Heroku
-var http = require("http");
+
 http
   .createServer(function (req, res) {
     res.writeHead(200, { "Content-Type": "text/plain" });
