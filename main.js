@@ -1,4 +1,10 @@
-import { Client, Intents, MessageActionRow, MessageButton } from "discord.js";
+import {
+  Client,
+  Intents,
+  MessageActionRow,
+  MessageButton,
+  Permissions,
+} from "discord.js";
 import dotenv from "dotenv";
 import http from "http";
 
@@ -82,8 +88,7 @@ client.on("interactionCreate", async (interaction) => {
 
   // Chaotic Button pushed
   if (interaction.isButton() && interaction.customId === "btn1") {
-    console.log(interaction.member.permissions.FLAGS.ADMINISTRATOR);
-    if (interaction.member.manageable) {
+    if (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
       interaction.member.timeout(30000, "I told you not to push the button 😜");
       interaction.reply({
         content: "THE BUTTON HAS BEEN PUSHED - ENJOY",
@@ -101,8 +106,7 @@ client.on("interactionCreate", async (interaction) => {
 
   // Blind Faith Button Pushed
   if (interaction.isButton() && interaction.customId === "btn3") {
-    console.log(blindfaithTarget.manageable);
-    if (blindfaithTarget.manageable) {
+    if (!blindfaithTarget.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
       blindfaithTarget.timeout(
         60000,
         `${interaction.member.nickname} does not have your back 🔪`
