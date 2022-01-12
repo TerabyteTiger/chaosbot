@@ -82,7 +82,7 @@ client.on("interactionCreate", async (interaction) => {
 
   // Chaotic Button pushed
   if (interaction.isButton() && interaction.customId === "btn1") {
-    console.log(interaction.member.manageable);
+    console.log(interaction.member.permissions.FLAGS.ADMINISTRATOR);
     if (interaction.member.manageable) {
       interaction.member.timeout(30000, "I told you not to push the button 😜");
       interaction.reply({
