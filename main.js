@@ -137,8 +137,7 @@ client.on("interactionCreate", async (interaction) => {
       });
     } else {
       interaction.reply({
-        content:
-          "Sorry, you're above the law and aren't eligible for this chaos",
+        content: `Sorry, ${blindfaithTarget.nickname}, you're above the law and aren't eligible for this chaos - but you still can't trust ${interaction.member.nickname}`,
       });
     }
     return;
