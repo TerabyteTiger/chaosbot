@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+// ^ Interpreter for running this on server
+
 import {
   Client,
   Intents,
@@ -47,7 +50,7 @@ client.on("interactionCreate", async (interaction) => {
       new MessageButton()
         .setCustomId("permsBtn")
         .setLabel("Check Permissions")
-        .setStyle("PRIMARY")
+        .setStyle("PRIMARY"),
     );
     await interaction.reply({ content: ":]", components: [row] });
   }
@@ -57,7 +60,7 @@ client.on("interactionCreate", async (interaction) => {
       new MessageButton()
         .setCustomId("btn1")
         .setLabel("Do not click")
-        .setStyle("DANGER")
+        .setStyle("DANGER"),
     );
     await interaction.reply({ content: "Do you dare?", components: [row] });
   }
@@ -73,7 +76,7 @@ client.on("interactionCreate", async (interaction) => {
       new MessageButton()
         .setCustomId("btn2")
         .setLabel("Do not click")
-        .setStyle("DANGER")
+        .setStyle("DANGER"),
     );
     await interaction.reply({ content: "Do you dare?", components: [row] });
   }
@@ -83,7 +86,7 @@ client.on("interactionCreate", async (interaction) => {
       new MessageButton()
         .setCustomId("btn3")
         .setLabel("Do not click")
-        .setStyle("PRIMARY")
+        .setStyle("PRIMARY"),
     );
     blindfaithTarget = interaction.member;
     const msg = `${interaction.member.nickname} has requested that nobody touch this button`;
@@ -130,7 +133,7 @@ client.on("interactionCreate", async (interaction) => {
     if (blindfaithTarget.moderatable) {
       blindfaithTarget.timeout(
         60000,
-        `${interaction.member.nickname} does not have your back 🔪`
+        `${interaction.member.nickname} does not have your back 🔪`,
       );
       interaction.reply({
         content: `${interaction.member.nickname} cannot be trusted`,
