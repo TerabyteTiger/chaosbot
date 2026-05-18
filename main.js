@@ -21,13 +21,16 @@ const client = new Client({
   ],
 });
 
-let chaosTarget = null;
 let blindfaithTarget = null;
 
-// client.application?.commands.create({
-//   name: "chaos",
-//   description: "Create chaos for the choosen one",
-// });
+const gamble_button_title_options = [
+  "🎲 Let's go gambling",
+  "🎲 One time for Kenny Rogers",
+  "🎲 Everything is a 50/50",
+];
+
+let gambler = null;
+let gambler2 = null;
 
 client.on("ready", () => {
   client.application?.commands.create({
@@ -37,6 +40,11 @@ client.on("ready", () => {
   client.application?.commands.create({
     name: "blindfaith",
     description: "How much do you trust everyone in this channel?",
+  });
+  client.application?.commands.create({
+    name: "timeout_gamble",
+    description:
+      "50/50 chance to time out you or the person that pushed the button",
   });
   client.application?.commands.create({
     name: "perms",
@@ -54,7 +62,6 @@ client.on("interactionCreate", async (interaction) => {
     );
     await interaction.reply({ content: ":]", components: [row] });
   }
-
   if (interaction.isCommand() && interaction.commandName === "chaotic") {
     const row = new MessageActionRow().addComponents(
       new MessageButton()
@@ -62,7 +69,7 @@ client.on("interactionCreate", async (interaction) => {
         .setLabel("Do not click")
         .setStyle("DANGER"),
     );
-    await interaction.reply({ content: "Do you dare?", components: [row] });
+    await interaction.reply({ content: "?", components: [row] });
   }
   if (interaction.isCommand() && interaction.commandName === "chaos") {
     const collector = interaction.channel.createMessageCollector({
@@ -90,6 +97,23 @@ client.on("interactionCreate", async (interaction) => {
     );
     blindfaithTarget = interaction.member;
     const msg = `${interaction.member.nickname} has requested that nobody touch this button`;
+
+    await interaction.reply({ content: msg, components: [row] });
+  }
+
+  if (interaction.isCommand() && interaction.commandName === "timeout_gamble") {
+    let gamble_button_title =
+      gamble_button_title_options[
+        Math.floor(Math.random() * gamble_button_title_options.length)
+      ];
+    const row = new MessageActionRow().addComponents(
+      new MessageButton()
+        .setCustomId("btn4")
+        .setLabel(gamble_button_title)
+        .setStyle("PRIMARY"),
+    );
+    gambler = interaction.member;
+    const msg = `${interaction.member.nickname} wants to gamble 🎲🎲`;
 
     await interaction.reply({ content: msg, components: [row] });
   }
@@ -142,6 +166,35 @@ client.on("interactionCreate", async (interaction) => {
       interaction.reply({
         content: `Sorry, ${blindfaithTarget.nickname}, you're above the law and aren't eligible for this chaos - but you still can't trust ${interaction.member.nickname}`,
       });
+    }
+    return;
+  }
+  // Gambling Button pushed
+  if (interaction.isButton() && interaction.customId === "btn4") {
+    gambler2 = interaction.member;
+    if (gambler.moderatable && gambler2.moderatable) {
+      if (Math.floor(Math.random() * 2) == 0) {
+        gambler.timeout(5 * 60 * 1000, `${gambler2.nickname} has won 🔥`);
+        interaction.reply({
+          content: `${gambler2.nickname} has won 🔥`,
+        });
+      } else {
+        gambler2.timeout(5 * 60 * 1000, `${gambler.nickname} has won 🍀`);
+        interaction.reply({
+          content: `${gambler.nickname} has won 🍀`,
+        });
+      }
+    } else {
+      if (!gambler.moderatable) {
+        interaction.reply({
+          content: `Sorry, ${gambler.nickname}, you're above the law and aren't eligible for this casino`,
+        });
+      }
+      if (!gambler2.moderatable) {
+        interaction.reply({
+          content: `Sorry, ${gambler2.nickname}, you're above the law and aren't eligible for this casino`,
+        });
+      }
     }
     return;
   }
